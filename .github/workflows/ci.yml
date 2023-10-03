@@ -54,7 +54,9 @@ jobs:
           - os: ubuntu-22.04
             config:
               foo: "fish"
-        exclude: ${{ fromJSON(needs.draft-pr-job-limiter.outputs.jobs) }}
+                #exclude: ${{ fromJSON(needs.draft-pr-job-limiter.outputs.jobs) }}
+        exclude:
+          - os: ubuntu-22.04
     steps:
       - name: actual work
         run: |
