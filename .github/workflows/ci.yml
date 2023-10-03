@@ -31,7 +31,7 @@ jobs:
           ]' | tr -d '[:space:]' >> $GITHUB_OUTPUT  # 4
         else
           echo 'jobs=[]' >> $GITHUB_OUTPUT  # 5
-        fi|
+        fi
   ci:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} - ${{ matrix.config.foo }}
