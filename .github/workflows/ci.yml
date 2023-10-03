@@ -32,6 +32,13 @@ jobs:
         else
           echo 'jobs=[]' >> $GITHUB_OUTPUT  # 5
         fi
+        echo $GITHUB_OUTPUT
+  check:
+    needs: draft-pr-job-limiter
+    steps:
+      - name: check filter
+        run: |
+          echo "${{needs.draft-pr-job-limiter.outputs.jobs}}"
   ci:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} - ${{ matrix.config.foo }}
@@ -50,6 +57,7 @@ jobs:
     steps:
       - name: actual work
         run: |
+          echo "${{needs.draft-pr-job-limiter.outputs.jobs}}"
           echo "doing real work here."
           sleep 60
           echo "done"
