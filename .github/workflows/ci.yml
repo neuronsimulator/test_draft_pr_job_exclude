@@ -39,16 +39,16 @@ jobs:
       matrix:
         os: [ macOS-11, ubuntu-20.04]
         config:
-					foo: "bar"
-					foo: "baz"
-				include:
-					- os: ubuntu-22.04
-						config:
-							foo: "fish"
+          foo: "bar"
+          foo: "baz"
+        include:
+          - os: ubuntu-22.04
+            config:
+              foo: "fish"
         exclude: ${{ fromJSON(needs.draft-pr-job-limiter.outputs.jobs) }}
     steps:
       - name: actual work
         run: |
-					echo "doing real work here."
-					sleep 60
-					echo "done"
+          echo "doing real work here."
+          sleep 60
+          echo "done"
