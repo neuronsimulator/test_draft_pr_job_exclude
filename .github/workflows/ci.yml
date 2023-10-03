@@ -60,7 +60,7 @@ jobs:
         run: |
           echo "${{ matrix.os }}"
           echo "${{ matrix.config.foo }}"
-          if ${{ matrix.os == "ubuntu-20.04" }}; then
+          if ${{ matrix.os == 'ubuntu-20.04' }}; then
             exit 1
           fi
       - name: actual work
