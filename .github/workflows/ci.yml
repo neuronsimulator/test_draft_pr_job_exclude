@@ -34,6 +34,7 @@ jobs:
         fi
         echo $GITHUB_OUTPUT
   check:
+    runs-on: ubuntu-latest
     needs: draft-pr-job-limiter
     steps:
       - name: check filter
