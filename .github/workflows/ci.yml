@@ -39,8 +39,7 @@ jobs:
       matrix:
         os: [ macOS-11, ubuntu-20.04]
         config:
-          foo: "bar"
-          foo: "baz"
+          foo: ["bar", "baz"]
         include:
           - os: ubuntu-22.04
             config:
