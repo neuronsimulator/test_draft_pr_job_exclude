@@ -10,36 +10,6 @@ on:
       - main
 
 jobs:
-  draft-pr-job-limiter:
-    runs-on: ubuntu-latest
-    outputs:
-      jobs: ${{ steps.draft-pr-job-limiter.outputs.jobs }}
-    steps:
-    - id: draft-pr-job-limiter
-      # 1. use any other condition(s) that fits your requirements
-      # 2. each item in the JSON array will be matched against your matrix later
-      # 3. here I exclude everything except ubuntu-latest + python3.7 (see matrix below)
-      # 4. make sure to output as single line
-      # 5. the default case is: exclude nothing
-      run: |
-        if ${{ github.event.pull_request.draft == true }}; then  # 1
-          # 2, 3
-          #  {"config.build_mode": "setuptools""},
-          #  {"matrix_eval" : "CC=gcc-9 CXX=g++-9"}
-          echo 'jobs=[
-            {"os": "ubuntu-22.04"}
-          ]' | tr -d '[:space:]' >> $GITHUB_OUTPUT  # 4
-        else
-          echo 'jobs=[]' >> $GITHUB_OUTPUT  # 5
-        fi
-        echo $GITHUB_OUTPUT
-  check:
-    runs-on: ubuntu-latest
-    needs: draft-pr-job-limiter
-    steps:
-      - name: check filter
-        run: |
-          echo "${{needs.draft-pr-job-limiter.outputs.jobs}}"
   ci:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} - ${{ matrix.config.foo }}
