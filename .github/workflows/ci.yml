@@ -25,11 +25,13 @@ jobs:
               foo: "fish"
     steps:
       - name: filter step
+        id: run_on_this_platofrm
         if: ${{ !github.event.pull_request.draft || matrix.os == 'ubuntu-20.04' }}
         run: |
           echo "${{ matrix.os }}"
           echo "${{ matrix.config.foo }}"
       - name: actual work
+        if: steps.run_on_this_platform.outcome == 'success'
         run: |
           echo "doing real work here."
           sleep 60
