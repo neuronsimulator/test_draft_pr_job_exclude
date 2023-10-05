@@ -25,7 +25,7 @@ jobs:
               foo: "fish"
     steps:
       - name: filter step
-        id: run_on_this_platofrm
+        id: run_on_this_platform
         if: ${{ !github.event.pull_request.draft || matrix.os == 'ubuntu-20.04' }}
         run: |
           echo "${{ matrix.os }}"
