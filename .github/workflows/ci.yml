@@ -13,7 +13,6 @@ jobs:
   ci:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} - ${{ matrix.config.foo }}
-    needs: draft-pr-job-limiter
     strategy:
       matrix:
         os: [ macOS-11, ubuntu-20.04]
