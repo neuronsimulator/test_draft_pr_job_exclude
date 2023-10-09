@@ -27,7 +27,7 @@ jobs:
           reactions: eyes
           comment_tag: friendly_reminder
       - name: Remove comment from PR
-        if: ${{ !github.event.pull_request.draft }}
+        if: ${{ github.event.action == 'ready_for_review' }}
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
