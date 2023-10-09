@@ -11,10 +11,12 @@ on:
 
 jobs:
   draft_pr_reminder:
+    permissions: 
+      pull-requests: write 
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' 
-      && github.event.action == 'opened' 
-      && github.event.pull_request.draft }}
+    #if: ${{ github.event_name == 'pull_request' 
+    #&& github.event.action == 'opened' 
+    #  && github.event.pull_request.draft }}
     steps:
       - name: Add comment to PR
         uses: thollander/actions-comment-pull-request@v2
