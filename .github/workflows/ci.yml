@@ -10,6 +10,18 @@ on:
       - main
 
 jobs:
+  draft_pr_reminder:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' 
+      && github.event.action == 'opened' 
+      && github.event.pull_request.draft }}
+    steps:
+      - name: Add comment to PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Friendly reminder, CI workflows in draft PR's only run on ubuntu-20.04.
+          reactions: eyes
   ci:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} - ${{ matrix.config.foo }}
