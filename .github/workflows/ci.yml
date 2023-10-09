@@ -1,0 +1,62 @@
+name: Test CI
+
+concurrency:
+  group: ${{ github.workflow }}#${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, converted_to_draft, ready_for_review]
+
+jobs:
+  draft_pr_reminder:
+    permissions: 
+      pull-requests: write 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add comment to PR
+        if: ${{ github.event_name == 'pull_request' 
+          && (github.event.action == 'opened' || github.event.action == 'converted_to_draft')
+          && github.event.pull_request.draft }}
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Friendly reminder, CI workflows in draft PR's only run on ubuntu-20.04.
+          comment_tag: friendly_reminder
+      - name: Remove comment from PR
+        if: ${{ github.event.action == 'ready_for_review' }}
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Friendly reminder, CI workflows in draft PR's only run on ubuntu-20.04.
+          comment_tag: friendly_reminder
+          mode: delete
+          create_if_not_exists: false
+  ci:
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} - ${{ matrix.config.foo }}
+    strategy:
+      matrix:
+        os: [ macOS-11, ubuntu-20.04]
+        config:
+          - {"foo": "bar"}
+          - {"foo": "baz"}
+        include:
+          - os: ubuntu-22.04
+            config:
+              foo: "fish"
+    steps:
+      - name: filter step
+        id: run_on_this_platform
+        if: ${{ !github.event.pull_request.draft || matrix.os == 'ubuntu-20.04' }}
+        run: |
+          echo "${{ matrix.os }}"
+          echo "${{ matrix.config.foo }}"
+      - name: actual work
+        if: steps.run_on_this_platform.outcome == 'success'
+        run: |
+          echo "doing real work here."
+          sleep 10
+          echo "done"
