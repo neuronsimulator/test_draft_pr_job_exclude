@@ -14,16 +14,23 @@ jobs:
     permissions: 
       pull-requests: write 
     runs-on: ubuntu-latest
-    #if: ${{ github.event_name == 'pull_request' 
-    #&& github.event.action == 'opened' 
-    #  && github.event.pull_request.draft }}
     steps:
       - name: Add comment to PR
+        if: ${{ github.event_name == 'pull_request' 
+          && github.event.action == 'opened' 
+          && github.event.pull_request.draft }}
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
             Friendly reminder, CI workflows in draft PR's only run on ubuntu-20.04.
           reactions: eyes
+          comment_tag: friendly_reminder
+      - name: Remove comment from PR
+        if: ${{ !github.event.pull_request.draft }}
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          comment_tag: friendly_reminder
+          mode: delete
   ci:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} - ${{ matrix.config.foo }}
