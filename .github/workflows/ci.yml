@@ -24,7 +24,6 @@ jobs:
         with:
           message: |
             Friendly reminder, CI workflows in draft PR's only run on ubuntu-20.04.
-          reactions: eyes
           comment_tag: friendly_reminder
       - name: Remove comment from PR
         if: ${{ github.event.action == 'ready_for_review' }}
@@ -34,6 +33,7 @@ jobs:
             Friendly reminder, CI workflows in draft PR's only run on ubuntu-20.04.
           comment_tag: friendly_reminder
           mode: delete
+          create_if_not_exists: false
   ci:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} - ${{ matrix.config.foo }}
@@ -58,5 +58,5 @@ jobs:
         if: steps.run_on_this_platform.outcome == 'success'
         run: |
           echo "doing real work here."
-          sleep 60
+          sleep 10
           echo "done"
