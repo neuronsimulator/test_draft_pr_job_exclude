@@ -32,7 +32,6 @@ jobs:
         with:
           message: |
             Friendly reminder, CI workflows in draft PR's only run on ubuntu-20.04.
-          reactions: eyes
           comment_tag: friendly_reminder
           mode: delete
   ci:
